@@ -35,10 +35,10 @@
 			li.menu a{
 				font-size: 22px;
 				font-family: 'Signika', sans-serif;
-				color: white;		
+				color: white;
 				padding: 5px 0px 5px 0px;
 				text-transform: lowercase;
-				text-align: left;	
+				text-align: left;
 				padding-left: 20px;
 			}
 
@@ -144,7 +144,6 @@
 				padding-left: 20px;
 				max-height: 100%;
 				overflow-y: auto;
-
 			}
 
 			::-webkit-scrollbar {
@@ -185,7 +184,7 @@
 			/*End of Content*/
 
 			/*CSS Menu Sidebar Style*/
-			*, :before, :after{ 
+			*, :before, :after{
 				box-sizing: border-box;
 			}
 
@@ -202,13 +201,13 @@
 			.list-hover-slide li{
 				position: relative;
 				overflow: hidden;
-			}  
+			}
 			.list-hover-slide a{
 			    display: block;
 			    position: relative;
 			    z-index: 1;
 			    transition: .35s ease color;
-			}    
+			}
 			.list-hover-slide a:before{
 			    content: '';
 			    display: block;
@@ -221,8 +220,8 @@
 			    background: #3C3735;
 			    transition: .35s ease left;
 			}
-				    
-			.list-hover-slide a.is-current:before, .list-hover-slide a:hover:before{ 
+
+			.list-hover-slide a.is-current:before, .list-hover-slide a:hover:before{
 				left: 0;
 		    }
 		    /*End of Sidebar Menu Style*/
@@ -234,7 +233,7 @@
 		    	font-family: 'Raleway', sans-serif;
 		    	font-weight: bold;
 		    	color: #0091ff;
-		    }	
+		    }
 
 		    hr {
 	    		border: 0;
@@ -246,7 +245,7 @@
 			  padding-top: 5px;
 			  padding-bottom: 5px;
 			  padding-left: 15px;
-			  border: solid 4px grey; 
+			  border: solid 4px grey;
 			  border-radius: 10px;
 			  overflow-y: scroll;
 			  height: 30%;
@@ -255,9 +254,30 @@
 			  font-family: 'Nunito', sans-serif;
 			}
 
+			textarea{
+				border-radius: 10px;
+				padding-left: 15px;
+			}
+			summary{
+				/*color:#993333;*/
+				color: #0074cc;
+				font-family: 'Raleway', sans-serif;
+				font-weight: bold;
+			}
+
+			summary::-webkit-details-marker{
+		    color: #33ccff;
+		  }
+
+		  summary:focus{
+		    outline-style: none;
+				width: 85%;
+				height: 100%;
+		  }
 		</style>
 
 		<script>
+
 		</script>
 
 	</head>
@@ -274,52 +294,52 @@
 				echo "Trojan <span>Log</span>";
 				echo "</a>";
 				echo "</h1>";
-					echo "<ul>";
-						echo "<li class=\"menu unstyled list-hover-slide\"><a href=\"#log\"> Device Log</a></li>";
+					// echo "<ul>";
+						// echo "<li class=\"menu unstyled list-hover-slide\"><a href=\"#log\"> Device Log</a></li>";
 							// echo "<div class=\"content\">";
-								echo "<ul class=\"content expand\" id=\"log\">";
-								$textLog = '*.log';
-								
-								foreach(glob($dir.$textLog) as $log){
-									$textfile = basename($log);
-
-									echo "<li class=\"log\">$textfile</li>";
-
-									$file = file($log);
-									$content = implode($file);
-									echo "<div class=\"text\">";
-										echo $content;
-									echo "</div>";
-
-									echo "<hr>";
-								}
-								echo "</ul>";
+							// 	echo "<ul class=\"content expand\" id=\"log\">";
+							// 	$textLog = '*.log';
+							//
+							// 	foreach(glob($dir.$textLog) as $log){
+							// 		$textfile = basename($log);
+							//
+							// 		echo "<li class=\"log\">$textfile</li>";
+							//
+							// 		$file = file($log);
+							// 		$content = implode($file);
+							// 		echo "<div class=\"text\">";
+							// 			echo $content;
+							// 		echo "</div>";
+							//
+							// 		echo "<hr>";
+							// 	}
+							// 	echo "</ul>";
 							// echo "</div>";
-					
-				 	foreach (glob($dir . "*") as $file){
-					
+
+				 	foreach (glob($dir . "*/") as $file){
+
 						$filename = basename($file);
-						
+
 						if(is_dir($file)) {
 							echo "<li class=\"menu list-hover-slide\"><a href=\"#$filename\">$filename</a></li>";
 							$open = scandir($file);
 								// echo "<div class=\"content\">";
 									echo "<ul class=\"content expand\" id=\"$filename\">";
 										echo "<div class=\"im\">";
-									
+
 											foreach($open as $files){
 												if($files == '.' || $files == '..'){
 													continue;
 												}
-												
+												// if(is_file("$dir/$value")) {$result[]="$dir/$value";continue;}
 												// echo finfo_file($finfo, $files);
 												// echo "<li><a href=\"$file/$files\"</a>$files</li>" ;
 
 												$imgExts = array("gif", "jpg", "jpeg", "png", "tiff", "tif");
 												$url = $files;
-												
+
 												$urlExt = pathinfo($url, PATHINFO_EXTENSION);
-												
+
 												if (in_array($urlExt, $imgExts)) {
 												    echo "<a href=\"$file/$url\" class=\"img\">";
 												    	echo "<figure>";
@@ -328,8 +348,65 @@
 												    echo "</a>";
 												    // echo "<li><a href=\"$file/$files\"</a>$files</li>" ;
 													// echo "<li><a href=\"#\"</a>$files</li>";
+												// }elseif(is_dir($files)){
+
+
 												}else{
-													echo "<li><a href=\"$file/$files\"</a>$files</li>";
+
+													foreach(glob($file . "$files/") as $subdirectory){
+														// if($files == '.' || $files == '..'){
+														// 	continue;
+														// }
+
+														$namedir = basename($subdirectory);
+														// echo "<li>$namedir</li>";
+
+
+														if(is_dir($subdirectory)){
+
+															echo "<details>";
+																echo "<summary  class=\"im\">$namedir</summary>";
+																$scansubdir = scandir($subdirectory);
+																// echo $scansubdir;
+																foreach ($scansubdir as $directory) {
+
+
+																	if($directory == '.' || $directory == '..'){
+																		continue;
+																	}
+																	$logging = '*.log';
+
+																	foreach(glob($subdirectory.$directory) as $logku){
+																		$based = basename($logku);
+																		// echo "$based<br>";
+																		// echo basename($subdirectory);
+
+																		echo "<li class=\"log\">$based</li>";
+
+																		$logfile = file($logku);
+																		$contentlog = implode($logfile);
+																		// echo "<div class=\"text\">";
+																		echo "<form>";
+																			echo "<textarea rows=\"10\" cols=\"100\">$contentlog</textarea>";
+																		echo "</form>";
+																		// echo "</div>";
+
+																		echo "<hr>";
+																	}
+
+																}
+
+																	// echo "</div>";
+
+
+
+															}
+															echo "</details>";
+
+														// echo "<li><a href=\"$file/$files\"</a>$files</li>" ;
+
+													}
+
 												}
 
 											}
@@ -342,10 +419,10 @@
 
 							// echo "<li><a href=\"#\">$filename</a></li>";
 						// }
-					
+
 					}
 					echo "</ul>";
-				echo "</dv>";
+				echo "</div>";
 			}
 		?>
 	</body>
