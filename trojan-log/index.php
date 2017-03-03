@@ -371,6 +371,7 @@
 
 
 																	$imgExts = array("gif", "jpg", "jpeg", "png", "tiff", "tif");
+																	$othersExts = array("mp3");
 																	$url = $directory;
 																	// echo $url;
 																	// echo $subdirectory;
@@ -385,11 +386,14 @@
 																	    	echo "</figure>";
 																	    echo "</a>";
 
+																	}elseif (in_array($urlExt, $othersExts)){
+																		echo "<li><a href=\"$subdirectory$directory\">$directory</a></li>";
 																	}else{
 																	$logging = '*.log';
 
 																		foreach(glob($subdirectory.$directory) as $logku){
 																			$based = basename($logku);
+
 																			// echo "$based<br>";
 																			// echo basename($subdirectory);
 																			echo "<details>";
