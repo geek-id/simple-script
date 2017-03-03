@@ -100,6 +100,7 @@
 
 			figure {
 				margin: 0;
+				height: auto;
 			}
 			/*End of img style*/
 			/*CSS Logo/Header*/
@@ -269,11 +270,22 @@
 		    color: #33ccff;
 		  }
 
+			summary.im2{
+				width: 85%;
+				height: 100%;
+				text-indent: 2em;
+			}
+
 		  summary:focus{
 		    outline-style: none;
 				width: 85%;
 				height: 100%;
 		  }
+
+			form.form_style{
+				padding-left: 3em;
+				padding-top: 10px;
+			}
 		</style>
 
 		<script>
@@ -294,27 +306,6 @@
 				echo "Trojan <span>Log</span>";
 				echo "</a>";
 				echo "</h1>";
-					// echo "<ul>";
-						// echo "<li class=\"menu unstyled list-hover-slide\"><a href=\"#log\"> Device Log</a></li>";
-							// echo "<div class=\"content\">";
-							// 	echo "<ul class=\"content expand\" id=\"log\">";
-							// 	$textLog = '*.log';
-							//
-							// 	foreach(glob($dir.$textLog) as $log){
-							// 		$textfile = basename($log);
-							//
-							// 		echo "<li class=\"log\">$textfile</li>";
-							//
-							// 		$file = file($log);
-							// 		$content = implode($file);
-							// 		echo "<div class=\"text\">";
-							// 			echo $content;
-							// 		echo "</div>";
-							//
-							// 		echo "<hr>";
-							// 	}
-							// 	echo "</ul>";
-							// echo "</div>";
 
 				 	foreach (glob($dir . "*/") as $file){
 
@@ -327,6 +318,7 @@
 									echo "<ul class=\"content expand\" id=\"$filename\">";
 										echo "<div class=\"im\">";
 
+
 											foreach($open as $files){
 												if($files == '.' || $files == '..'){
 													continue;
@@ -337,6 +329,7 @@
 
 												$imgExts = array("gif", "jpg", "jpeg", "png", "tiff", "tif");
 												$url = $files;
+												// echo $files;
 
 												$urlExt = pathinfo($url, PATHINFO_EXTENSION);
 
@@ -354,9 +347,9 @@
 												}else{
 
 													foreach(glob($file . "$files/") as $subdirectory){
-														// if($files == '.' || $files == '..'){
-														// 	continue;
-														// }
+														if($files == '.' || $files == '..'){
+															continue;
+														}
 
 														$namedir = basename($subdirectory);
 														// echo "<li>$namedir</li>";
@@ -368,42 +361,57 @@
 																echo "<summary  class=\"im\">$namedir</summary>";
 																$scansubdir = scandir($subdirectory);
 																// echo $scansubdir;
+																// echo $subdirectory;
 																foreach ($scansubdir as $directory) {
 
 
 																	if($directory == '.' || $directory == '..'){
 																		continue;
 																	}
+
+
+																	$imgExts = array("gif", "jpg", "jpeg", "png", "tiff", "tif");
+																	$url = $directory;
+																	// echo $url;
+																	// echo $subdirectory;
+
+																	$urlExt = pathinfo($url, PATHINFO_EXTENSION);
+
+																	if (in_array($urlExt, $imgExts)) {
+
+																	    echo "<a href=\"$subdirectory$url\" class=\"img\">";
+																	    	echo "<figure>";
+																		    	echo "<img src=\"$subdirectory$url\">";
+																	    	echo "</figure>";
+																	    echo "</a>";
+
+																	}else{
 																	$logging = '*.log';
 
-																	foreach(glob($subdirectory.$directory) as $logku){
-																		$based = basename($logku);
-																		// echo "$based<br>";
-																		// echo basename($subdirectory);
+																		foreach(glob($subdirectory.$directory) as $logku){
+																			$based = basename($logku);
+																			// echo "$based<br>";
+																			// echo basename($subdirectory);
+																			echo "<details>";
+																				echo "<summary  class=\"im2\">$based</summary>";
+																			// echo "<li class=\"log\">$based</li>";
 
-																		echo "<li class=\"log\">$based</li>";
+																			$logfile = file($logku);
+																			$contentlog = implode($logfile);
+																			// echo "<div class=\"text\">";
 
-																		$logfile = file($logku);
-																		$contentlog = implode($logfile);
-																		// echo "<div class=\"text\">";
-																		echo "<form>";
-																			echo "<textarea rows=\"10\" cols=\"100\">$contentlog</textarea>";
-																		echo "</form>";
-																		// echo "</div>";
+																					echo "<form class=\"form_style\">";
+																						echo "<textarea rows=\"10\" cols=\"85\">$contentlog</textarea>";
+																					echo "</form>";
+																			echo "<hr>";
+																			echo "</details>";
 
-																		echo "<hr>";
+																		}
 																	}
-
 																}
-
-																	// echo "</div>";
-
-
 
 															}
 															echo "</details>";
-
-														// echo "<li><a href=\"$file/$files\"</a>$files</li>" ;
 
 													}
 
@@ -413,12 +421,9 @@
 										echo "</div>";
 
 									echo "</ul>";
-								// echo "</div>";
-						}
-						// else {
 
-							// echo "<li><a href=\"#\">$filename</a></li>";
-						// }
+						}
+
 
 					}
 					echo "</ul>";
