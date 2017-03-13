@@ -12,7 +12,6 @@ $IPTABLES -A INPUT -i lo -j ACCEPT
 $IPTABLES -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 
 $IPTABLES -A INPUT -s 8.8.8.8 -j ACCEPT
-#$IPTABLES -A INPUT -s 192.168.10.2 -j ACCEPT
 
 $IPTABLES -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
@@ -25,14 +24,6 @@ $IPTABLES -t mangle -A internet -j MARK --set-mark 99
 
 $IPTABLES -t nat -A PREROUTING -m mark --mark 99 -p tcp -m multiport --dport 80,443 -j DNAT --to-destination 192.168.10.2:80
 
-#$IPTABLES -A PREROUTING -i eth1 -p tcp -m mark --mark 0x63 -m tcp --dport 53 -j DNAT --to 192.168.10.2
-#$IPTABLES -A PREROUTING -i eth1 -p udp -m mark --mark 0x63 -m udp --dport 53 -j DNAT --to 192.168.10.2
-#$IPTABLES -A PREROUTING -i eth1 -p tcp -m tcp --dport 53 -j internet
-#$IPTABLES -A PREROUTING -i eth1 -p udp -m udp --dport 53 -j internet
-#$IPTABLES -A internet -j MARK --set-xmark 0x63/0xffffffff
-
-
-#$IPTABLES -t filter -A FORWARD -m mark --mark 99 -j DROP
 #dns
 $IPTABLES -t filter -A INPUT -s 8.8.8.8 -j ACCEPT
 $IPTABLES -t filter -A INPUT -s 192.168.10.2 -j ACCEPT
